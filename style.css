@@ -1,0 +1,55 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+}
+
+main { 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 0 5rem;
+}
+.screen{
+    overflow: hidden;
+    position: relative;
+}
+.score{
+    position: absolute;
+    right: 2vmin;
+    top: 1vmin;
+}
+.start{
+    position: absolute;
+    left: 50%;
+    top : 50%;
+    transform: translate(-50%, -50%);
+}
+.hide {
+    display: none;
+}
+
+.ground{
+    --left : 0;
+    position: absolute;
+    bottom: 0;
+    width: 300%;
+    left: calc(var(--left) * 1%);
+}
+.opponent{
+    --bottom : 0;
+    position: absolute;
+    left: 1%;
+    width: 15%;
+    bottom: calc(var(--bottom) * 1%);
+}
+
+.obstacle{
+    --bottom : 0;
+    position: absolute;
+    left: calc(var(--left) * 1%);
+    height: 30%;
+    bottom:0;
+}
