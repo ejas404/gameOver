@@ -1,17 +1,30 @@
-// const opponents = document.querySelectorAll('.opponent')
-let opponents = document.querySelectorAll('.opponent')
+import {customProperty} from'/customProperty.mjs'
+
+let opponentImg = document.getElementById('opponent')
 let i = 0;
-export function opponentRun(){
-   
-    setInterval(()=>{
-       opponents[i].classList.remove('hide')
-        i++
-        if(i > 0){
-            opponents[i-1].classList.add('hide')
-        }
-        if(i == opponents.length){
-            i=0;
-        }
-    },1000)
-   
+const OPPONENT_FRAME_COUNT = 3
+const FRAME_TIME = 150
+const JUMP_SPEED = 0.05
+let currentFrameTime = 0
+let opponentFrame = 0
+export function opponentRun(delta,speedScale) {
+   if(currentFrameTime >= FRAME_TIME){
+        let imageIndex = (opponentFrame+1) % OPPONENT_FRAME_COUNT
+        opponentFrame = imageIndex
+        console.log('b4')
+        console.log(imageIndex)
+        opponentImg.src = `/public/catrun${imageIndex}-removebg-preview.png`
+        currentFrameTime-=FRAME_TIME
+   }
+
+   currentFrameTime+= delta
+}
+
+export function opponentJump(delta,speedScale){
+   opponentImg.src = `/public/catJump-removebg-preview.png`
+   customProperty.increment(opponentImg,'--bottom',30*JUMP_SPEED+'%')
+
+   // if(customProperty.get(opponentImg,'--bottom') > 0){
+   //    customProperty.set(opponentImg,'--bottom',0)
+   // }
 }

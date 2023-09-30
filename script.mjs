@@ -3,11 +3,10 @@ const SCREE_HEIGHT = 30
 const SPEED_SCALE_INC = 0.0001
 
 import {ground} from '/ground.mjs'
-import { opponentRun } from './opponent.mjs'
+import { opponentRun , opponentJump } from './opponent.mjs'
 
 const screenElement = document.getElementById("gameScreen")
 setScreenSize()
-opponentRun()
 window.addEventListener('resize', setScreenSize)
 
 window.addEventListener('keydown',startGame,{once : true})
@@ -15,26 +14,41 @@ window.addEventListener('keydown',startGame,{once : true})
 ground.set()
 let lastTime;
 let speedScale;
-let score = 0;
+let delta
+let score;
 function update(time){
     if(lastTime == null){
         lastTime = time
     }
-    let delta = time - lastTime
+    delta = time - lastTime
     ground.move(delta,speedScale)
     speedScaleInc(delta)
     updateScore(delta)
+    opponentRun(delta,speedScale)
    
     lastTime = time
     window.requestAnimationFrame(update)
 }
 
+let isActive = false
+
 function startGame(){
+    isActive = true
     speedScale = 1
+    score = 0;
     const startGameTitle = document.getElementById('start')
     startGameTitle.classList.add('hide')
     window.requestAnimationFrame(update)
 }
+
+window.addEventListener('keydown',(event)=>{
+    if(isActive){
+        if(event.key == " "){
+            console.log('spaced...')
+            opponentJump(delta,speedScale)
+        }
+    }
+})
 
 function updateScore(delta){
     score+=delta*0.01
